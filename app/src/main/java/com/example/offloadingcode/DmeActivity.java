@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 public class DmeActivity extends AppCompatActivity {
 
+    //testing
     String connection="";
     String memoryinfo;
     long avaMemory;
