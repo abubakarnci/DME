@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         dme.setOnClickListener(v -> {
 
-            Intent intDem=new Intent(MainActivity.this, DmeActivity.class);
+            Intent intDem=new Intent(MainActivity.this, SplashActivity.class);
             startActivity(intDem);
 
         });
