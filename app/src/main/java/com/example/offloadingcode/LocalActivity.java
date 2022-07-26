@@ -49,7 +49,7 @@ public class LocalActivity extends AppCompatActivity {
 
     }
 
-    private int fib(int input) {
+    private long fib(int input) {
 
         if(input<=1){
             return input;

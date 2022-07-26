@@ -74,7 +74,7 @@ public class DmeActivity extends AppCompatActivity {
         }
         else if (connection.equals("Connected")){
             //its in MB
-            if(avaMemory>=2100) {
+            if(avaMemory>=2500) {
                 if(bLevel>=50 && bHealth.equals("Good")&& bStatus.equals("Charging")) {
                     ans.setText("Local");
                     local.setEnabled(true);
