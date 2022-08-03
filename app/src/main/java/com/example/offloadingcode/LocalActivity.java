@@ -21,7 +21,7 @@ import java.io.InputStream;
 public class LocalActivity extends AppCompatActivity {
 
     EditText ed1;
-    TextView tx1;
+    TextView tx1,tx2;
     Button b1;
 
 
@@ -33,6 +33,7 @@ public class LocalActivity extends AppCompatActivity {
         ed1=findViewById(R.id.input);
         b1=findViewById(R.id.submit_local);
         tx1=findViewById(R.id.result);
+        tx2=findViewById(R.id.time);
 
         b1.setOnClickListener(v ->{
 
@@ -40,8 +41,18 @@ public class LocalActivity extends AppCompatActivity {
 
             //fib(input);
 
+            long start= System.currentTimeMillis();
             String ans=String.valueOf(fib(input));
+            long end= System.currentTimeMillis();
+
+            long total=(end-start)/1000;
+
+            Log.e("Time",total+"");
+            System.out.println(total+": Time");
+
             tx1.setText(ans);
+            tx2.setText("Time: "+total+" sec");
+
             Log.e("ans",ans);
             System.out.println(ans+": ans");
 

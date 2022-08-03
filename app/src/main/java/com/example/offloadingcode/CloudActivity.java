@@ -36,12 +36,12 @@ public class CloudActivity extends AppCompatActivity {
 
 
     String value="";
-    Long output;
+    long start,end,total;
     String connection="";
     BroadcastReceiver broadcastReceiver;
     IntentFilter intentFilter;
 
-    TextView detail,result;
+    TextView detail,result,tx1;
     Button submit;
     EditText input;
 
@@ -56,6 +56,7 @@ public class CloudActivity extends AppCompatActivity {
         submit=findViewById(R.id.submit_cloud);
         input=findViewById(R.id.cloud_input);
         result=findViewById(R.id.result_c);
+        tx1=findViewById(R.id.time_c);
         mQueue = Volley.newRequestQueue(this);
 
         intentFilterAndBroadcast();
@@ -66,13 +67,17 @@ public class CloudActivity extends AppCompatActivity {
             Log.e("ans",value);
             System.out.println(value+": ans");
 
+
             jsonParse();
+
 
         });
 
     }
 
     private void jsonParse() {
+
+        start= System.currentTimeMillis();
 
         String url="http://dmespring-env.eba-kirhbdqa.eu-west-1.elasticbeanstalk.com/api/test/"+value;
 
@@ -85,20 +90,45 @@ public class CloudActivity extends AppCompatActivity {
                         System.out.println(response+": ans");
 
                         try {
-                            int number=response.getInt("input");
+                            long number=response.getLong("input");
+
+                            Log.e("number", String.valueOf(number));
+                            System.out.println(number+": number");
+
                             result.setText(String.valueOf(number));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
 
+                        }
+                        end= System.currentTimeMillis();
+                        //Log.e("time", String.valueOf(end));
+                        //System.out.println(start+": time");
+
+                        total=(end-start)/1000;
+
+                        tx1.setText("Time: "+total+" sec");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                end= System.currentTimeMillis();
+                //Log.e("time", String.valueOf(end));
+                total=(end-start)/1000;
+                tx1.setText("Time: "+total+" sec");
+
             }
         });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+            100000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+
+
         mQueue.add(request);
+
+
 
     }
 
