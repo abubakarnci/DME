@@ -36,7 +36,7 @@ public class CloudActivity extends AppCompatActivity {
 
 
     String value="";
-    long start,end,total;
+    double start,end,total;
     String connection="";
     BroadcastReceiver broadcastReceiver;
     IntentFilter intentFilter;

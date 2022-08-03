@@ -41,11 +41,11 @@ public class LocalActivity extends AppCompatActivity {
 
             //fib(input);
 
-            long start= System.currentTimeMillis();
+            double start= System.currentTimeMillis();
             String ans=String.valueOf(fib(input));
-            long end= System.currentTimeMillis();
+            double end= System.currentTimeMillis();
 
-            long total=(end-start)/1000;
+            double total=(end-start)/1000;
 
             Log.e("Time",total+"");
             System.out.println(total+": Time");
