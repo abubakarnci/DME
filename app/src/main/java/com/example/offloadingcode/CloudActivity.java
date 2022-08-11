@@ -34,6 +34,7 @@ import java.net.URL;
 
 public class CloudActivity extends AppCompatActivity {
 
+// declaring variables, methods and frontend elements
 
     String value="";
     double start,end,total;
@@ -52,6 +53,7 @@ public class CloudActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cloud);
 
+        // initializing them
         detail=findViewById(R.id.connection);
         submit=findViewById(R.id.submit_cloud);
         input=findViewById(R.id.cloud_input);
@@ -61,6 +63,7 @@ public class CloudActivity extends AppCompatActivity {
 
         intentFilterAndBroadcast();
 
+        //button click listener
         submit.setOnClickListener(v ->{
 
             value=input.getText().toString();
@@ -77,8 +80,10 @@ public class CloudActivity extends AppCompatActivity {
 
     private void jsonParse() {
 
+        // start time
         start= System.currentTimeMillis();
 
+        //api link
         String url="http://dmespring-env.eba-kirhbdqa.eu-west-1.elasticbeanstalk.com/api/test/"+value;
 
         JsonObjectRequest request= new JsonObjectRequest(Request.Method.GET, url, null,
@@ -86,10 +91,12 @@ public class CloudActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
+                        // response from microservice
                         Log.e("ans",response.toString());
                         System.out.println(response+": ans");
 
                         try {
+                            //parsing json response
                             long number=response.getLong("input");
 
                             Log.e("number", String.valueOf(number));
@@ -101,10 +108,12 @@ public class CloudActivity extends AppCompatActivity {
                             e.printStackTrace();
 
                         }
+                        // end time
                         end= System.currentTimeMillis();
                         //Log.e("time", String.valueOf(end));
                         //System.out.println(start+": time");
 
+                        //execution time calculation
                         total=(end-start)/1000;
 
                         tx1.setText("Time: "+total+" sec");
@@ -121,17 +130,20 @@ public class CloudActivity extends AppCompatActivity {
             }
         });
 
+        //increasing response time
         request.setRetryPolicy(new DefaultRetryPolicy(
             100000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
 
 
+        // sending request
         mQueue.add(request);
 
 
 
     }
 
+    //getting real time context
     private void intentFilterAndBroadcast() {
 
         intentFilter=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -142,6 +154,7 @@ public class CloudActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
 
 
+                // checking network connection
                 if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
                     boolean noConnectivity=intent.getBooleanExtra(
                             ConnectivityManager.EXTRA_NO_CONNECTIVITY,false

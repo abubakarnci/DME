@@ -20,6 +20,8 @@ import java.io.InputStream;
 
 public class LocalActivity extends AppCompatActivity {
 
+    // local execution
+
     EditText ed1;
     TextView tx1,tx2;
     Button b1;
@@ -45,6 +47,7 @@ public class LocalActivity extends AppCompatActivity {
             String ans=String.valueOf(fib(input));
             double end= System.currentTimeMillis();
 
+            // checking time of local execution
             double total=(end-start)/1000;
 
             Log.e("Time",total+"");
@@ -60,6 +63,7 @@ public class LocalActivity extends AppCompatActivity {
 
     }
 
+    //fibonacci series code
     private long fib(int input) {
 
         if(input<=1){

@@ -8,6 +8,7 @@ import android.os.Handler;
 
 public class SplashActivity extends AppCompatActivity {
 
+    // this screen will stay for 3 seconds when user will click on DME button present in homepage
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

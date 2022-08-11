@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+// home page for user to select option
 
     Button cloud, local, dme, info;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         dme=findViewById(R.id.dme);
         info=findViewById(R.id.info);
 
+        // buttons performing click function
         cloud.setOnClickListener(v -> {
 
             Intent intCloud=new Intent(MainActivity.this, CloudActivity.class);

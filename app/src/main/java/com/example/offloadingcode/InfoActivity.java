@@ -17,6 +17,7 @@ import java.io.InputStream;
 
 public class InfoActivity extends AppCompatActivity {
 
+    // this is to show real-time context of a device to user
 
     BroadcastReceiver broadcastReceiver;
     IntentFilter intentFilter;
@@ -25,6 +26,7 @@ public class InfoActivity extends AppCompatActivity {
     TextView textView ;
     ProcessBuilder processBuilder;
     String Holder = "";
+    // getting cpu details stored on device files
     String[] DATA = {"/system/bin/cat", "/proc/cpuinfo"};
     InputStream inputStream;
     Process process ;
@@ -44,7 +46,7 @@ public class InfoActivity extends AppCompatActivity {
 
         intentFilterAndBroadcast();
 
-        //CPU
+        // retrieving CPU info
 
         textView = (TextView)findViewById(R.id.textView);
 
@@ -72,6 +74,7 @@ public class InfoActivity extends AppCompatActivity {
         textView.setText(Holder);
     }
 
+    //getting full detail about Memory
     private void getMemoryInfo(){
 
         ActivityManager.MemoryInfo memoryInfo= new ActivityManager.MemoryInfo();
@@ -94,6 +97,7 @@ public class InfoActivity extends AppCompatActivity {
 
     private void intentFilterAndBroadcast() {
 
+        // for getting real-time device context
         intentFilter=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         broadcastReceiver=new BroadcastReceiver() {
@@ -102,6 +106,9 @@ public class InfoActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
 
                 getMemoryInfo();
+
+                //getting battery details
+
                 if(Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())){
 
                     bLevel.setText(String.valueOf(intent.getIntExtra("level",0))+"%");
@@ -111,6 +118,9 @@ public class InfoActivity extends AppCompatActivity {
                     setChargingStatus(intent);
 
                 }
+
+                //connection details
+
                 if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
                     boolean noConnectivity=intent.getBooleanExtra(
                             ConnectivityManager.EXTRA_NO_CONNECTIVITY,false
@@ -126,6 +136,8 @@ public class InfoActivity extends AppCompatActivity {
             }
         };
     }
+
+    //getting battery status
 
     private void setChargingStatus(Intent intent) {
 
@@ -154,6 +166,7 @@ public class InfoActivity extends AppCompatActivity {
         }
 
     }
+    // for battery health
 
     private void setHealth(Intent intent) {
 

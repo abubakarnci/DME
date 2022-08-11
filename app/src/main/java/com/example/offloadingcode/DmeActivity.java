@@ -45,6 +45,7 @@ public class DmeActivity extends AppCompatActivity {
         bStatus="";
         bHealth="";
 
+        //cloud activity button
         cloud.setOnClickListener(v -> {
 
             Intent intCloud=new Intent(DmeActivity.this, CloudActivity.class);
@@ -52,6 +53,7 @@ public class DmeActivity extends AppCompatActivity {
 
         });
 
+        //local activity button
         local.setOnClickListener(v -> {
 
             Intent intMobile=new Intent(DmeActivity.this, LocalActivity.class);
@@ -66,17 +68,22 @@ public class DmeActivity extends AppCompatActivity {
 
     }
 
+    //DME code
     private void decision() {
+
+        //checking network
         if(connection.equals("Disconnected")){
            ans.setText("Local");
             local.setEnabled(true);
             cloud.setEnabled(false);
         }
         else if (connection.equals("Connected")){
-            //its in MB
+            //memory or ram in MB
             if(avaMemory>=2100) {
+                //battery details
                 if(bLevel>=50 && bHealth.equals("Good")&& bStatus.equals("Charging")) {
                     ans.setText("Local");
+                    // making buttons enable and disable
                     local.setEnabled(true);
                     cloud.setEnabled(false);
                 }
@@ -116,6 +123,7 @@ public class DmeActivity extends AppCompatActivity {
 
     private void getMemoryInfo(){
 
+        //getting full detail about Memory
         ActivityManager.MemoryInfo memoryInfo= new ActivityManager.MemoryInfo();
         ActivityManager activityManager=(ActivityManager) getSystemService(ACTIVITY_SERVICE);
         activityManager.getMemoryInfo(memoryInfo);
@@ -132,6 +140,7 @@ public class DmeActivity extends AppCompatActivity {
         //return builder.toString();
         //memory.setText(builder.toString());
         memoryinfo=builder.toString();
+        //converting into MB
         avaMemory= memoryInfo.availMem/1000000;
         //System.out.println(avaMemory+": memory");
         //ans.setText(avaMemory+": memory");
@@ -141,6 +150,7 @@ public class DmeActivity extends AppCompatActivity {
 
     private void intentFilterAndBroadcast() {
 
+        // for getting real-time device context
         intentFilter=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         broadcastReceiver=new BroadcastReceiver() {
@@ -150,6 +160,8 @@ public class DmeActivity extends AppCompatActivity {
 
 
                 getMemoryInfo();
+
+                //getting battery details
                 if(Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())){
 
                     bLevel=((intent.getIntExtra("level",0)));
@@ -159,6 +171,7 @@ public class DmeActivity extends AppCompatActivity {
                     setChargingStatus(intent);
 
                 }
+                //connection details
                 if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
                     boolean noConnectivity=intent.getBooleanExtra(
                             ConnectivityManager.EXTRA_NO_CONNECTIVITY,false
@@ -173,6 +186,7 @@ public class DmeActivity extends AppCompatActivity {
                     }
                 }
 
+                //calling decision method to give recommendation
                 decision();
 
             }
@@ -181,6 +195,7 @@ public class DmeActivity extends AppCompatActivity {
 
     }
 
+    //getting battery status
     private void setChargingStatus(Intent intent) {
 
         int status= intent.getIntExtra("status",-1);
@@ -209,6 +224,7 @@ public class DmeActivity extends AppCompatActivity {
 
     }
 
+    // for battery health
     private void setHealth(Intent intent) {
 
         int value= intent.getIntExtra("health",0);
